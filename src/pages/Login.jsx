@@ -1,12 +1,10 @@
-import FormLogin from "../components/FormLogin";
-import Layout from "../components/Layout";
+import LoginWFormik from '../components/LoginWFormik';
+import Layout from '../components/Layout';
 
 function Login() {
-
-
     return (
         <Layout>
-            <FormLogin></FormLogin>
+            <LoginWFormik />
         </Layout>
     );
 }
