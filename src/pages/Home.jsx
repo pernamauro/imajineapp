@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
+import Table from '../components/Table';
 import axios from 'axios';
 
 function Home() {
@@ -40,32 +41,7 @@ function Home() {
                 }}
             >
                 {
-                    users ?
-                    <table className="table table-hover" style={{ width: '60%'}}>
-                        <thead>
-                        <tr className="table-active">
-                            <th scope="col">#</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Lastname</th>
-                            <th scope="col">Age</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                users.map((user, index) => {
-                                    return (
-                                        <tr>
-                                            <th scope="row">{index}</th>
-                                            <td>{user.name}</td>
-                                            <td>{user.lastname}</td>
-                                            <td>{user.age}</td>
-                                        </tr>
-                                    )
-                                })
-                            }
-                        </tbody>
-                    </table>
-                    : null
+                    users ? <Table users={users}/> : null
                 }
             </div>
         </Layout>
