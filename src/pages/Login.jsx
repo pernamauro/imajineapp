@@ -1,4 +1,3 @@
-import LoginWFormik from '../components/LoginWFormik';
 import Layout from '../components/Layout';
 import FormLogin from '../components/FormLogin';
 
