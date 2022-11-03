@@ -3,6 +3,7 @@ import { Stack } from 'react-bootstrap';
 import Background from '../assets/background.png';
 import Logo from '../assets/logo.png'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function Layout({children, url}) {
 
@@ -37,16 +38,22 @@ function Layout({children, url}) {
                             width: "230px"
                         }}/>
                         {
-                            url &&  <button type="button" 
-                                            className="btn btn-light bg-light.bg-gradient shadow bg-body rounded rounded-pill" 
-                                            style={{ width: '170px', height: '54px'}}
-                                            onClick={(e) => {
-                                                e.preventDefault();
-                                                navigate('/login'); 
-                                            }}
-                                    >
-                                        Log out
-                                    </button>
+                            url ? 
+                            <div className='d-flex flex-row justify-content-between align-items-center' style={{ width: '25%'}}>
+                                <Link to="/my_profile">My profile</Link>
+                                <button type="button" 
+                                                className="btn btn-light bg-light.bg-gradient shadow bg-body rounded rounded-pill" 
+                                                style={{ width: '170px', height: '54px'}}
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    navigate('/login'); 
+                                                }}
+                                        >
+                                            Log out
+                                </button>
+                            </div>
+
+                            : null
                         }
                     </div>
                     {children}

@@ -41,9 +41,9 @@ function Home() {
             >
                 {
                     users ?
-                    <table className="table" style={{ width: '60%'}}>
+                    <table className="table table-hover" style={{ width: '60%'}}>
                         <thead>
-                        <tr>
+                        <tr className="table-active">
                             <th scope="col">#</th>
                             <th scope="col">Name</th>
                             <th scope="col">Lastname</th>
