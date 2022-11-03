@@ -13,7 +13,8 @@ function Home() {
 
     async function fetchData() {
         const res = await axios.get('http://localhost:8080/api/users')
-        setUsers(res.data.data.users);
+        const {users} = res.data.data
+        setUsers(users);
     }
 
     // useEfect => if users==null => axios get users then setusers(list)
@@ -21,7 +22,7 @@ function Home() {
         if(!users) {
             setTimeout(() => {
                 fetchData();
-            }, 2000)
+            }, 1000)
         }
         // console.log(users);
     }, [users])
