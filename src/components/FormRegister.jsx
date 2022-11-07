@@ -6,13 +6,15 @@ import * as yup from 'yup';
 import { Formik } from 'formik';
 import Input from './Input';
 import {valuesRegister} from '../constants/constants';
+import axios from 'axios';  
 
 function FormRegister() {
 
     const navigate = useNavigate();
 
-    const onSubmit = (values) => {
-        console.log(values);
+    const onSubmit = async (values) => {
+        const res = await axios.post('http://localhost:8080/api/auth/sign-up', values);
+        console.log(res.data);
         navigate('/login');
     }
 

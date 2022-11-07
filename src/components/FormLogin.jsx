@@ -9,15 +9,20 @@ import {valuesLogin} from '../constants/constants';
 import axios from 'axios';
 
 function FormLogin() {
-
+    const [error, setError] = useState(null);
 
     const navigate = useNavigate();
 
 
     const onSubmit = async (values) => {
-       const res = await axios.post('http://localhost:8080/api/users', values);
-       console.log(res.data);
-       navigate('/home');
+        try {
+            const res = await axios.post('http://localhost:8080/api/auth/sign-in', values);
+            if(res.data.data.user === null) throw new Error('user does not exist')
+            const {email}  = res.data.data.user;
+            navigate(`/home/${email}`);
+        } catch (error) {
+            setError(error.message);
+        }
     }
 
     return (
@@ -28,7 +33,6 @@ function FormLogin() {
                 height: '80vh',
             }}
         >   
-
             <Formik
                 onSubmit={onSubmit}
                 initialValues={{ ...valuesLogin }}
@@ -37,10 +41,10 @@ function FormLogin() {
                         .string('must be a string')
                         .email('enter a valid email')
                         .required('this field is required'),
-                    name: yup
+                    password: yup
                         .string()
-                        .matches(/[^$&+,:;=?@#|'<>.^*()%!-\s]/, 'Is not in correct format')
-                        .required()
+                        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter')
+                        .required(),
                 })}
             >
                 {({
@@ -68,10 +72,11 @@ function FormLogin() {
                                 className="m-2"
                             />
                             <Input
-                                name='name'
-                                value={values.name}
-                                error={errors.name}
-                                placeholder="Name"
+                                type='password'
+                                name='password'
+                                value={values.password}
+                                error={errors.password}
+                                placeholder="Password"
                                 onChange={handleChange}
                                 className="m-2"
                             />
@@ -90,6 +95,13 @@ function FormLogin() {
                                     Submit
                                 </Button>
                             </div>
+                            {
+                                error ? 
+                                <div className="alert alert-danger" role="alert">
+                                {error}
+                                </div>
+                                : null
+                            }
                         </Form>
                     )
                 }}

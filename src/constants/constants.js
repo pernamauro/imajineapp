@@ -1,6 +1,6 @@
 export const valuesLogin = {
     email: '',
-    name: '',
+    password: '',
 };
 
 export const valuesRegister = {

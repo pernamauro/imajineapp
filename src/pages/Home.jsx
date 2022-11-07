@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
 import Table from '../components/Table';
@@ -8,27 +8,30 @@ import axios from 'axios';
 function Home() {
 
     const location = useLocation();
-    //useState => [users, setUsers]
-    const [users, setUsers] = useState(null)
+    //useState => [user, setUser]
+    const [user, setUser] = useState(null)
+    const {email} = useParams();
 
     async function fetchData() {
-        const res = await axios.get('http://localhost:8080/api/users')
-        const {users} = res.data.data
-        setUsers(users);
+        const res = await axios.get(`http://localhost:8080/api/auth/me?email=${email}`)
+        const {user} = res.data.data
+        setUser(user)
+        /* const {users} = res.data.data
+        setUsers(users); */
     }
 
     // useEfect => if users==null => axios get users then setusers(list)
     useEffect(() => {
-        if(!users) {
+        if(!user) {
             setTimeout(() => {
                 fetchData();
             }, 1000)
         }
         // console.log(users);
-    }, [users])
+    }, [user])
 
     //if !users => loading
-    if(!users) return <Loading/>
+    if(!user) return <Loading/>
 
 
 
@@ -42,8 +45,17 @@ function Home() {
                 }}
             >
                 {
-                    users ? <Table users={users}/> : null
+                    user ?
+                    <div className='d-flex flex-column align-items-center justify-content-center'>
+                        <p>{user.name}&nbsp;{user.lastname}</p>
+                        <p>{user.email}</p>
+                        <p>{user.phone}</p>
+                    </div> 
+                    : null
                 }
+                {/* {
+                    users ? <Table users={users}/> : null
+                } */}
             </div>
         </Layout>
     );
