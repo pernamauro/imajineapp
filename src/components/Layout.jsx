@@ -59,6 +59,7 @@ function Layout({ children, url }) {
                                     style={{ width: '170px', height: '54px' }}
                                     onClick={(e) => {
                                         e.preventDefault();
+                                        localStorage.removeItem('jwt');
                                         navigate('/login');
                                     }}
                                 >
