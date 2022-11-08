@@ -6,34 +6,33 @@ import Table from '../components/Table';
 import axios from 'axios';
 
 function Home() {
-
     const location = useLocation();
-    //useState => [user, setUser]
-    const [user, setUser] = useState(null)
-    const {email} = useParams();
+    const [user, setUser] = useState(null);
+    const { email } = useParams();
 
     async function fetchData() {
-        const res = await axios.get(`http://localhost:8080/api/auth/me?email=${email}`)
-        const {user} = res.data.data
-        setUser(user)
-        /* const {users} = res.data.data
-        setUsers(users); */
+        const token = localStorage.getItem('jwt');
+        const res = await axios.get(`http://localhost:8080/api/auth/me`, {
+            headers: {
+                jwt: token,
+            },
+        });
+
+        console.log(res.data.data.user);
+
+        const { user } = res.data.data;
+        setUser(user);
     }
 
-    // useEfect => if users==null => axios get users then setusers(list)
     useEffect(() => {
-        if(!user) {
+        if (!user) {
             setTimeout(() => {
                 fetchData();
-            }, 1000)
+            }, 1000);
         }
-        // console.log(users);
-    }, [user])
+    }, [user]);
 
-    //if !users => loading
-    if(!user) return <Loading/>
-
-
+    if (!user) return <Loading />;
 
     return (
         <Layout url={location.pathname}>
@@ -44,18 +43,15 @@ function Home() {
                     height: '80vh',
                 }}
             >
-                {
-                    user ?
+                {user ? (
                     <div className='d-flex flex-column align-items-center justify-content-center'>
-                        <p>{user.name}&nbsp;{user.lastname}</p>
+                        <p>
+                            {user.name}&nbsp;{user.lastname}
+                        </p>
                         <p>{user.email}</p>
                         <p>{user.phone}</p>
-                    </div> 
-                    : null
-                }
-                {/* {
-                    users ? <Table users={users}/> : null
-                } */}
+                    </div>
+                ) : null}
             </div>
         </Layout>
     );

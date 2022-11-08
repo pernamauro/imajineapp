@@ -5,18 +5,17 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import Input from './Input';
-import {valuesRegister} from '../constants/constants';
-import axios from 'axios';  
+import { valuesRegister } from '../constants/constants';
+import axios from 'axios';
 
 function FormRegister() {
-
     const navigate = useNavigate();
 
     const onSubmit = async (values) => {
         const res = await axios.post('http://localhost:8080/api/auth/sign-up', values);
         console.log(res.data);
         navigate('/login');
-    }
+    };
 
     return (
         <div
@@ -44,11 +43,17 @@ function FormRegister() {
                         .required(),
                     password: yup
                         .string()
-                        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/, 'password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter')
+                        .matches(
+                            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
+                            'password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter',
+                        )
                         .required(),
                     phone: yup
                         .string()
-                        .matches(/^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/, 'example: +5435842896')
+                        .matches(
+                            /^\+?([0-9]{2})\)?[-. ]?([0-9]{4})[-. ]?([0-9]{4})$/,
+                            'example: +5435842896',
+                        )
                         .required(),
                 })}
             >
@@ -62,69 +67,80 @@ function FormRegister() {
                     handleSubmit,
                 }) => {
                     return (
-                        <Form style={{
-                                width: '40%'
-                              }}
-                              onSubmit={handleSubmit}
+                        <Form
+                            style={{
+                                width: '40%',
+                            }}
+                            onSubmit={handleSubmit}
                         >
-                            <p class="text-start m-2">Register</p>
+                            <p class='text-start m-2'>Register</p>
                             <Input
                                 name='email'
                                 value={values.email}
                                 error={errors.email}
-                                placeholder="Email"
+                                placeholder='Email'
                                 onChange={handleChange}
-                                className="m-2"
+                                className='m-2'
                             />
                             <Input
                                 name='name'
                                 value={values.name}
                                 error={errors.name}
-                                placeholder="Name"
+                                placeholder='Name'
                                 onChange={handleChange}
-                                className="m-2"
+                                className='m-2'
                             />
                             <Input
                                 name='lastname'
                                 value={values.lastname}
                                 error={errors.lastname}
-                                placeholder="Lastname"
+                                placeholder='Lastname'
                                 onChange={handleChange}
-                                className="m-2"
+                                className='m-2'
                             />
                             <Input
                                 type='password'
                                 name='password'
                                 value={values.password}
                                 error={errors.password}
-                                placeholder="Password"
+                                placeholder='Password'
                                 onChange={handleChange}
-                                className="m-2"
+                                className='m-2'
                             />
                             <Input
                                 name='phone'
                                 value={values.phone}
                                 error={errors.phone}
-                                placeholder="Phone number"
+                                placeholder='Phone number'
                                 onChange={handleChange}
-                                className="m-2"
+                                className='m-2'
+                            />
+                            <Input
+                                name='age'
+                                value={values.age}
+                                error={errors.age}
+                                placeholder='Age'
+                                onChange={handleChange}
+                                className='m-2'
                             />
                             <div className='d-flex flex-column align-items-center'>
-                                <Link to='/login' className='m-3'>I already have an account</Link>
+                                <Link to='/login' className='m-3'>
+                                    I already have an account
+                                </Link>
                                 <Button
                                     type='submit'
                                     style={{
                                         width: '80%',
-                                        backgound: "#8989C7"
+                                        backgound: '#8989C7',
                                     }}
-                                    className="m-2"
+                                    className='m-2'
                                     disabled={!isValid}
                                 >
                                     Submit
                                 </Button>
                             </div>
                         </Form>
-                    )
+                    );
                 }}
             </Formik>
         </div>

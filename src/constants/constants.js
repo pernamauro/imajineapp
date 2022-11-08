@@ -9,6 +9,7 @@ export const valuesRegister = {
     lastname: '',
     password: '',
     phone: null,
+    age: null,
 };
 
 export const valuesRecoverPass = {
