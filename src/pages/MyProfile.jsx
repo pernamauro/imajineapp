@@ -65,15 +65,15 @@ function MyProfile() {
     return (
         <Layout url={location.pathname}>
             <div
-                className='d-flex flex-column align-items-center justify-content-center bg-light mt-3 rounded-4'
+                className='d-flex flex-column align-items-center justify-content-center bg-light mt-3 p-5 rounded-4'
                 style={{
-                    width: '75%',
+                    width: '65%',
                     height: '80vh',
                 }}
             >
                 {user ? (
                     <div className='d-flex flex-column'>
-                        <h4>Personal Information</h4>
+                        <h5>Personal Information</h5>
                         <div className='d-flex flex-row'>
                             <img
                                 className='img-fluid rounded'
@@ -82,20 +82,20 @@ function MyProfile() {
                                 }}
                                 src='https://i.ibb.co/NZqnmqj/mauro.jpg'
                             />
-                            <Form className='d-flex flex-column m-3'>
+                            <Form className='d-flex flex-column m-2 mt-4'>
                                 <div className='d-flex flex-row'>
                                     <Form.Control
                                         type='text'
                                         placeholder='Firstname'
                                         value={user.name}
-                                        className='m-3'
+                                        className='m-3 h-75'
                                         disabled
                                     />
                                     <Form.Control
                                         type='text'
                                         placeholder='Lastname'
                                         value={user.lastname}
-                                        className='m-3'
+                                        className='m-3 h-75'
                                         disabled
                                     />
                                 </div>
@@ -103,14 +103,14 @@ function MyProfile() {
                                     <Form.Control
                                         type='text'
                                         placeholder='Age'
-                                        className='m-3'
+                                        className='m-3 h-75'
                                         value={user.age}
                                         disabled
                                     />
                                     <Form.Control
                                         type='text'
                                         placeholder='Phone'
-                                        className='m-3'
+                                        className='m-3 h-75'
                                         value={user.phone}
                                         disabled
                                     />
@@ -123,7 +123,7 @@ function MyProfile() {
                                 width: '100%',
                             }}
                         >
-                            <h4>Work Information</h4>
+                            <h5>Work Information</h5>
                             <Formik
                                 onSubmit={onSubmit}
                                 initialValues={{
@@ -152,16 +152,16 @@ function MyProfile() {
                                 }) => {
                                     return (
                                         <Form
-                                            className='d-flex flex-column m-3'
+                                            className='d-flex flex-column'
                                             style={{
                                                 width: '100%',
                                             }}
                                             onSubmit={handleSubmit}
                                         >
                                             <div
-                                                className='d-flex flex-row justify-content-evenly align-items-center'
+                                                className='d-flex flex-row justify-content-between align-items-center gap-4'
                                                 style={{
-                                                    width: '100%',
+                                                    width: '95%',
                                                 }}
                                             >
                                                 <Input
@@ -172,6 +172,8 @@ function MyProfile() {
                                                     placeholder='Role'
                                                     onChange={handleChange}
                                                     className='m-3'
+                                                    width={'40%'}
+                                                    style={{ height: '50px' }}
                                                 />
                                                 <Input
                                                     type='text'
@@ -180,13 +182,17 @@ function MyProfile() {
                                                     error={errors.roleDescription}
                                                     placeholder='Role description'
                                                     onChange={handleChange}
-                                                    className='m-3'
-                                                    style={{
-                                                        width: '410px',
-                                                    }}
+                                                    className='m-3 w-2'
+                                                    width={'60%'}
+                                                    style={{ height: '50px' }}
                                                 />
                                             </div>
-                                            <div className='d-flex flex-row justify-content-evenly align-items-center'>
+                                            <div
+                                                className='d-flex flex-row justify-content-evenly align-items-center gap-4'
+                                                style={{
+                                                    width: '95%',
+                                                }}
+                                            >
                                                 <Input
                                                     type='text'
                                                     name='project'
@@ -195,6 +201,8 @@ function MyProfile() {
                                                     placeholder='Project'
                                                     className='m-3'
                                                     onChange={handleChange}
+                                                    width={'40%'}
+                                                    style={{ height: '50px' }}
                                                 />
                                                 <Input
                                                     type='text'
@@ -204,20 +212,19 @@ function MyProfile() {
                                                     placeholder='PM assigned'
                                                     onChange={handleChange}
                                                     className='m-3'
-                                                    style={{
-                                                        width: '410px',
-                                                    }}
+                                                    width={'60%'}
+                                                    style={{ height: '50px' }}
                                                 />
                                             </div>
                                             <div
                                                 className='d-flex flex-row justify-content-end'
                                                 style={{
-                                                    width: '95%',
+                                                    width: '100%',
                                                 }}
                                             >
                                                 <Button
                                                     type='submit'
-                                                    className='m-2'
+                                                    className='me-4'
                                                     style={{
                                                         width: '150px',
                                                     }}
