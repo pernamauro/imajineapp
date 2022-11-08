@@ -76,11 +76,11 @@ function MyProfile() {
                         <h4>Personal Information</h4>
                         <div className='d-flex flex-row'>
                             <img
-                                className='img-fluid'
+                                className='img-fluid rounded'
                                 style={{
                                     width: '200px',
                                 }}
-                                src='https://i0.wp.com/eltallerdehector.com/wp-content/uploads/2022/06/7e4d3-baby-yoda-png-sin-fondo.png?resize=800%2C765&ssl=1'
+                                src='https://i.ibb.co/NZqnmqj/mauro.jpg'
                             />
                             <Form className='d-flex flex-column m-3'>
                                 <div className='d-flex flex-row'>
