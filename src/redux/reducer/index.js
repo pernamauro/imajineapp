@@ -1,12 +1,8 @@
-const initialState = {
-    user: {},
-};
+import { combineReducers } from 'redux';
+import auth from './auth';
+import food from './food';
 
-const rootReducer = (state = initialState, action) => {
-    switch (action.type) {
-        default:
-            break;
-    }
-};
-
-export default rootReducer;
+export default combineReducers({
+    auth,
+    food,
+});

@@ -5,20 +5,21 @@ import { useNavigate } from 'react-router-dom';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import Input from './Input';
-import { valuesLogin } from '../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
-import { login } from '../redux/actions/auth';
+import { createFood } from '../redux/actions/food';
 
-function FormLogin() {
+function FormCreateFood() {
     const [error, setError] = useState(null);
-    const navigate = useNavigate();
+
     const dispatch = useDispatch();
-    const { isAuthenticated } = useSelector(({ auth }) => auth);
+    const {
+        profile: { id },
+    } = useSelector(({ auth }) => auth);
 
     const onSubmit = async (values) => {
         try {
-            dispatch(login(values));
-            if (isAuthenticated) navigate(`/home`);
+            dispatch(createFood(values, id));
+            console.log(values);
         } catch (error) {
             setError(error.message);
         }
@@ -34,19 +35,16 @@ function FormLogin() {
         >
             <Formik
                 onSubmit={onSubmit}
-                initialValues={{ ...valuesLogin }}
+                initialValues={{
+                    name: '',
+                    price: null,
+                    description: '',
+                    imgUrl: '',
+                }}
                 validationSchema={yup.object({
-                    email: yup
-                        .string('must be a string')
-                        .email('enter a valid email')
-                        .required('this field is required'),
-                    password: yup
-                        .string()
-                        .matches(
-                            /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/,
-                            'password must be between 6 to 20 characters which contain at least one numeric digit, one uppercase and one lowercase letter',
-                        )
-                        .required(),
+                    name: yup.string('must be a string').required('this field is required'),
+                    price: yup.number().required(),
+                    description: yup.string().required(),
                 })}
             >
                 {({
@@ -65,31 +63,44 @@ function FormLogin() {
                             }}
                             onSubmit={handleSubmit}
                         >
-                            <p class='text-start m-2'>Login</p>
+                            <p class='text-start m-2'>Create Food</p>
                             <Input
-                                name='email'
-                                value={values.email}
-                                error={errors.email}
-                                placeholder='Email'
+                                type='text'
+                                name='name'
+                                value={values.name}
+                                error={errors.name}
+                                placeholder='Name'
                                 onChange={handleChange}
                                 className='m-2'
                             />
                             <Input
-                                type='password'
-                                name='password'
-                                value={values.password}
-                                error={errors.password}
-                                placeholder='Password'
+                                type='number'
+                                name='price'
+                                value={values.price}
+                                error={errors.price}
+                                placeholder='Price'
+                                onChange={handleChange}
+                                className='m-2'
+                            />
+                            <Input
+                                type='text'
+                                name='description'
+                                value={values.description}
+                                error={errors.description}
+                                placeholder='Description'
+                                onChange={handleChange}
+                                className='m-2'
+                            />
+                            <Input
+                                type='text'
+                                name='imgUrl'
+                                value={values.imgUrl}
+                                error={errors.imgUrl}
+                                placeholder='Url image'
                                 onChange={handleChange}
                                 className='m-2'
                             />
                             <div className='d-flex flex-column align-items-center'>
-                                <Link to='/' className='mt-3 mb-2'>
-                                    Sign up
-                                </Link>
-                                <Link to='/recover_password' className='mb-3'>
-                                    Forgot my password
-                                </Link>
                                 <Button
                                     type='submit'
                                     style={{
@@ -115,4 +126,4 @@ function FormLogin() {
     );
 }
 
-export default FormLogin;
+export default FormCreateFood;

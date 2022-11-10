@@ -6,6 +6,7 @@ import RecoverPassword from './pages/RecoverPassword';
 import ResetPassword from './pages/ResetPassword';
 import Register from './pages/Register';
 import MyProfile from './pages/MyProfile';
+import CreateFood from './pages/CreateFood';
 import Home from './pages/Home';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                 <Route path='/reset_password' element={<ResetPassword />} />
                 <Route exact path='/home' element={<Home />} />
                 <Route exact path='/my-profile' element={<MyProfile />} />
+                <Route exact path='/create-food' element={<CreateFood />} />
             </Routes>
         </>
     );

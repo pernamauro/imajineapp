@@ -3,50 +3,37 @@ import { useLocation, useParams } from 'react-router-dom';
 import { Form, Button } from 'react-bootstrap';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
-import Table from '../components/Table';
 import axios from 'axios';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 import Input from '../components/Input';
-import { valuesProfile } from '../constants/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { putUserData } from '../redux/actions/auth';
+import { useNavigate } from 'react-router-dom';
 
 function MyProfile() {
     const location = useLocation();
     const [user, setUser] = useState(null);
+    const navigate = useNavigate();
 
-    async function fetchData() {
-        const token = localStorage.getItem('jwt');
-        const res = await axios.get(`http://localhost:8080/api/auth/me`, {
-            headers: {
-                jwt: token,
-            },
-        });
-
-        console.log(res.data.data.user);
-
-        const { user } = res.data.data;
-        setUser(user);
-    }
+    const { token, profile } = useSelector(({ auth }) => auth);
+    const dispatch = useDispatch();
 
     const onSubmit = async (values) => {
+        console.log('onSubmit==>', { ...values });
         try {
-            const token = localStorage.getItem('jwt');
-            const res = await axios.put(
-                'http://localhost:8080/api/user',
-                {
-                    ...values,
-                    name: user.name,
-                    lastname: user.lastname,
-                    age: user.age,
-                    phone: user.phone,
-                },
-                {
-                    headers: {
-                        jwt: token,
+            dispatch(
+                putUserData(
+                    {
+                        ...values,
+                        name: user.name,
+                        lastname: user.lastname,
+                        age: user.age,
+                        phone: user.phone,
                     },
-                },
+                    token,
+                ),
             );
-            console.log(res);
         } catch (error) {
             console.error(error.message);
         }
@@ -54,9 +41,7 @@ function MyProfile() {
 
     useEffect(() => {
         if (!user) {
-            setTimeout(() => {
-                fetchData();
-            }, 1000);
+            setUser(profile);
         }
     }, [user]);
 
@@ -222,6 +207,15 @@ function MyProfile() {
                                                     width: '100%',
                                                 }}
                                             >
+                                                <Button
+                                                    onClick={() => navigate('/create-food')}
+                                                    className='me-4'
+                                                    style={{
+                                                        width: '150px',
+                                                    }}
+                                                >
+                                                    Agregar Comida
+                                                </Button>
                                                 <Button
                                                     type='submit'
                                                     className='me-4'

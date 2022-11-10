@@ -1,38 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import Layout from '../components/Layout';
 import Loading from '../components/Loading';
-import Table from '../components/Table';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllFoods } from '../redux/actions/food';
 
 function Home() {
     const location = useLocation();
-    const [user, setUser] = useState(null);
-    const { email } = useParams();
+    const dispatch = useDispatch();
 
-    async function fetchData() {
-        const token = localStorage.getItem('jwt');
-        const res = await axios.get(`http://localhost:8080/api/auth/me`, {
-            headers: {
-                jwt: token,
-            },
-        });
-
-        console.log(res.data.data.user);
-
-        const { user } = res.data.data;
-        setUser(user);
-    }
+    const { token } = useSelector(({ auth }) => auth);
+    const { allUserFoods } = useSelector(({ food }) => food);
 
     useEffect(() => {
-        if (!user) {
-            setTimeout(() => {
-                fetchData();
-            }, 1000);
-        }
-    }, [user]);
-
-    if (!user) return <Loading />;
+        dispatch(getAllFoods(token));
+    }, []);
 
     return (
         <Layout url={location.pathname}>
@@ -43,15 +25,16 @@ function Home() {
                     height: '80vh',
                 }}
             >
-                {user ? (
-                    <div className='d-flex flex-column align-items-center justify-content-center'>
-                        <p>
-                            {user.name}&nbsp;{user.lastname}
-                        </p>
-                        <p>{user.email}</p>
-                        <p>{user.phone}</p>
-                    </div>
-                ) : null}
+                {allUserFoods.length
+                    ? allUserFoods.map((item) => {
+                          return (
+                              <div>
+                                  <p>{item.name}</p>
+                                  <p>{item.price}</p>
+                              </div>
+                          );
+                      })
+                    : null}
             </div>
         </Layout>
     );

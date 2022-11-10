@@ -4,9 +4,12 @@ import Background from '../assets/background.png';
 import Logo from '../assets/logo.png';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { cleanProfile } from '../redux/actions/auth';
 
 function Layout({ children, url }) {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     return (
         <div
@@ -61,7 +64,7 @@ function Layout({ children, url }) {
                                     style={{ width: '170px', height: '54px' }}
                                     onClick={(e) => {
                                         e.preventDefault();
-                                        localStorage.removeItem('jwt');
+                                        dispatch(cleanProfile());
                                         navigate('/login');
                                     }}
                                 >

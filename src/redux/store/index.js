@@ -1,10 +1,32 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from '../reducer';
+import { applyMiddleware, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-const composeEnhancers =
-    (typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+import rootReducer from '../reducer';
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+const reducer = persistReducer(
+    {
+        key: 'imajineapp',
+        storage,
+        whitelist: ['auth'],
+    },
+    rootReducer,
+);
 
-export default store;
+const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const configStore = (initialState = {}) => {
+    const store = createStore(reducer, initialState, composeEnhancer(applyMiddleware(thunk)));
+
+    return {
+        persistor: persistStore(store),
+        store,
+    };
+};
+
+const { store, persistor } = configStore();
+
+global.store = store;
+
+export { store, persistor };
