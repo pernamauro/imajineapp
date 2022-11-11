@@ -1,5 +1,6 @@
 import { ActionTypes } from '../../constants/actionTypes';
 import axios from 'axios';
+import { axiosRegister, axiosLogin, axiosPutUserData } from '../../modules/api';
 
 /*Register*/
 export const registerRequest = () => {
@@ -24,7 +25,7 @@ export const register = (values) => {
     return async (dispatch) => {
         dispatch(registerRequest());
         try {
-            const res = await axios.post('http://localhost:8080/api/auth/sign-up', values);
+            await axiosRegister(values);
             dispatch(registerSuccess());
         } catch (error) {
             dispatch(registerFail());
@@ -59,7 +60,7 @@ export const login = (values) => {
         try {
             const {
                 data: { data },
-            } = await axios.post('http://localhost:8080/api/auth/sign-in', values);
+            } = await axiosLogin(values);
             dispatch(success(data));
         } catch (error) {
             dispatch(failure());
@@ -80,11 +81,7 @@ export const putUserData = (values, token) => {
         try {
             const {
                 data: { data },
-            } = await axios.put('http://localhost:8080/api/user', values, {
-                headers: {
-                    jwt: token,
-                },
-            });
+            } = await axiosPutUserData(values, token);
             dispatch({
                 type: ActionTypes.PUT_USER_DATA,
                 payload: data,
