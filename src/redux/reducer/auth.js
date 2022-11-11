@@ -5,17 +5,27 @@ const initialState = {
     token: null,
     profile: null,
     loading: false,
+    created: false,
 };
 
 const auth = (state = initialState, { type, payload }) => {
     switch (type) {
-        case ActionTypes.LOGOUT:
+        case ActionTypes.REGISTER_REQUEST:
             return {
                 ...state,
-                isAuthenticated: false,
-                token: null,
-                profile: null,
+                loading: true,
+            };
+        case ActionTypes.REGISTER_FAIL:
+            return {
+                ...state,
                 loading: false,
+                created: false,
+            };
+        case ActionTypes.REGISTER_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                created: true,
             };
         case ActionTypes.WAIT:
             return {
@@ -43,6 +53,14 @@ const auth = (state = initialState, { type, payload }) => {
             return {
                 ...state,
                 profile: payload,
+                loading: false,
+            };
+        case ActionTypes.LOGOUT:
+            return {
+                ...state,
+                isAuthenticated: false,
+                token: null,
+                profile: null,
                 loading: false,
             };
         default:

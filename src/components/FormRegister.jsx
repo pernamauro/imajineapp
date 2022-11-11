@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -7,15 +7,25 @@ import { Formik } from 'formik';
 import Input from './Input';
 import { valuesRegister } from '../constants/constants';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { register } from '../redux/actions/auth';
+import Loading from '../components/Loading';
 
 function FormRegister() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    const { loading, created } = useSelector(({ auth }) => auth);
 
     const onSubmit = async (values) => {
-        const res = await axios.post('http://localhost:8080/api/auth/sign-up', values);
-        console.log(res.data);
-        navigate('/login');
+        dispatch(register(values));
     };
+
+    useEffect(() => {
+        if (created) navigate('/login');
+    }, [created]);
+
+    if (loading) return <Loading />;
 
     return (
         <div

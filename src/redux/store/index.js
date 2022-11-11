@@ -9,7 +9,7 @@ const reducer = persistReducer(
     {
         key: 'imajineapp',
         storage,
-        whitelist: ['auth'],
+        whitelist: [],
     },
     rootReducer,
 );

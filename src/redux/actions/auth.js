@@ -1,6 +1,36 @@
 import { ActionTypes } from '../../constants/actionTypes';
 import axios from 'axios';
-const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+/*Register*/
+export const registerRequest = () => {
+    return {
+        type: ActionTypes.REGISTER_REQUEST,
+    };
+};
+
+export const registerFail = () => {
+    return {
+        type: ActionTypes.REGISTER_FAIL,
+    };
+};
+
+export const registerSuccess = () => {
+    return {
+        type: ActionTypes.REGISTER_SUCCESS,
+    };
+};
+
+export const register = (values) => {
+    return async (dispatch) => {
+        dispatch(registerRequest());
+        try {
+            const res = await axios.post('http://localhost:8080/api/auth/sign-up', values);
+            dispatch(registerSuccess());
+        } catch (error) {
+            dispatch(registerFail());
+        }
+    };
+};
 
 /* Login */
 export const waiting = (payload) => {
@@ -43,6 +73,7 @@ export const logout = () => {
     };
 };
 
+/*update info user profile*/
 export const putUserData = (values, token) => {
     return async (dispatch) => {
         dispatch(waiting());

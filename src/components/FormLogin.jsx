@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
@@ -8,21 +8,28 @@ import Input from './Input';
 import { valuesLogin } from '../constants/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../redux/actions/auth';
+import Loading from '../components/Loading';
 
 function FormLogin() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { isAuthenticated } = useSelector(({ auth }) => auth);
+    const { isAuthenticated, loading } = useSelector(({ auth }) => auth);
 
     const onSubmit = async (values) => {
         try {
             dispatch(login(values));
-            if (isAuthenticated) navigate(`/home`);
+            // if (isAuthenticated) navigate(`/home`);
         } catch (error) {
             setError(error.message);
         }
     };
+
+    useEffect(() => {
+        if (isAuthenticated) navigate(`/home`);
+    }, [isAuthenticated]);
+
+    if (loading) return <Loading />;
 
     return (
         <div
