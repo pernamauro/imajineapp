@@ -19,7 +19,6 @@ function FormLogin() {
     const onSubmit = async (values) => {
         try {
             dispatch(login(values));
-            // if (isAuthenticated) navigate(`/home`);
         } catch (error) {
             setError(error.message);
         }

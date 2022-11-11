@@ -62,6 +62,7 @@ const auth = (state = initialState, { type, payload }) => {
                 token: null,
                 profile: null,
                 loading: false,
+                created: false,
             };
         default:
             return state;
